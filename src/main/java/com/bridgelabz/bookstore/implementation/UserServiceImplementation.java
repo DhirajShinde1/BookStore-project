@@ -183,11 +183,15 @@ public class UserServiceImplementation implements UserServices {
 	@Override
 	public boolean isUserExist(String email) {
 		try {
+			System.out.println(1);
 			Users user = repository.getUser(email);
-			if (user.isVerified() == true) {
+			System.out.println("USer : "+user);
+			if (true) {
+				System.out.println(3);
 				String mailResponse = response.formMessage("http://localhost:4200/update-password",
 						generate.jwtToken(user.getUserId()));
-				System.out.println(mailResponse);
+				
+				System.out.println("mailResponse : "+mailResponse);
 				MailServiceProvider.sendEmail(user.getEmail(), "Reset Your Password", mailResponse);
 				return true;
 			} else {

@@ -3,6 +3,7 @@
  */
 package com.bridgelabz.bookstore.util;
 
+import java.awt.print.Printable;
 import java.util.Properties;
 
 import javax.mail.Authenticator;
@@ -19,8 +20,8 @@ import org.springframework.stereotype.Component;
 public class MailServiceProvider {
 	public static void sendEmail(String toEmail, String subject, String body) {
 
-		String fromEmail = System.getenv("email");
-		String password = System.getenv("password");
+		String fromEmail = "bookstore7771@gmail.com";
+		String password = "wnumgxeuqbkvbvqh";
 
 		Properties prop = new Properties();
 		prop.put("mail.smtp.auth", "true");
@@ -41,15 +42,21 @@ public class MailServiceProvider {
 	private static void send(Session session, String fromEmail, String toEmail, String subject, String body) {
 		try {
 			MimeMessage message = new MimeMessage(session);
+			System.out.println(1);
 			message.setFrom(new InternetAddress(fromEmail, "Bookstore"));
+			System.out.println(2);
 			message.setRecipient(Message.RecipientType.TO, new InternetAddress(toEmail));
+			System.out.println(3);
 			message.setSubject(subject);
+			System.out.println(4);
 			message.setText(body);
+			System.out.println(5);
 			Transport.send(message);
+			System.out.println(6);
 			
 		} catch (Exception e) {
-			System.out.println("exception occured while sending mail");
-
+	
+			System.out.println(e);
 		}
 	}
 }

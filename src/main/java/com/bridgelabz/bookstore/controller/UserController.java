@@ -92,6 +92,7 @@ public class UserController {
 	public ResponseEntity<Response> forgogPassword(@RequestBody PasswordReset passwordReset) {
 	
 		boolean result = service.isUserExist(passwordReset.getEmail());
+		System.out.println("result : "+result);
 		if (result) {
 			return ResponseEntity.status(HttpStatus.ACCEPTED).body(new Response("Check your email: Email sent", 200));
 		} else {
