@@ -141,22 +141,32 @@ public class CartServiceImplimentation implements ICartService {
 		if (user != null) {
 			Book book = bookRepository.findById(bookId).get();
 			if (book != null) {
-				Quantity quantity = quantityRepository.findById(id).orElseThrow(null);
-				for (CartItem cartt : user.getCartBooks()) {
-					boolean exitsBookInCart = cartt.getBooksList().stream()
-							.noneMatch(books -> books.getBookId().equals(bookId));
-					if (!exitsBookInCart) {
-						userRepository.save(user);
-						cartt.getQuantityOfBook().remove(quantity);
-						cartt.getBooksList().remove(book);
-						cartt.getQuantityOfBook().clear();
-						boolean users = userRepository.save(user).getCartBooks() != null ? true : false;
-						if (user != null) {
-							return users;
+				System.out.println("quantity : " + id);
+				for (CartItem cc : user.getCartBooks()) {
+					for (Book b : cc.getBooksList()) {
+						if (b.getBookId() == bookId) {
+							for (Quantity q : cc.getQuantityOfBook()) {
+								Quantity quantity = quantityRepository.findById(q.getQuantity_id()).orElseThrow(null);
+								for (CartItem cartt : user.getCartBooks()) {
+									boolean exitsBookInCart = cartt.getBooksList().stream()
+											.noneMatch(books -> books.getBookId().equals(bookId));
+									if (!exitsBookInCart) {
+										userRepository.save(user);
+										cartt.getQuantityOfBook().remove(quantity);
+										cartt.getBooksList().remove(book);
+										cartt.getQuantityOfBook().clear();
+										boolean users = userRepository.save(user).getCartBooks() != null ? true : false;
+										if (user != null) {
+											return users;
+										}
+									}
+
+								}
+							}
 						}
 					}
-
 				}
+
 			} // book
 				// .book....exception here....
 		} // user
